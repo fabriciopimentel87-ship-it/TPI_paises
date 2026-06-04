@@ -9,7 +9,7 @@ def limpiar_consola():
 def validar_str(mensaje):
     while True:
         try:
-            nombre = input(mensaje).strip().lower()
+            nombre = input(mensaje).strip().capitalize()
             
             if nombre == "":
                 raise ValueError("no se puede ingresar vacío")
@@ -34,6 +34,8 @@ def validar_entero(mensaje):
         
         except ValueError as e:
             print(f"ERROR: {e}")
+        except Exception as r:
+            print(f"ocurrio un error inesperado de tipo {r}")
 ##crea el csv con el encabezado 
 def crear_csv():
     with open("paises.csv", "w", newline='', encoding='utf-8') as archivo:
@@ -97,13 +99,41 @@ def agregar_pais(paises):
         print(f"ocurrio un error inesperado: {e}") 
     finally:
         print("el proceso de registro fue finalizado")
+
+def actualizar_datos(paises):
+    try:
+        print("========= ACTUALIZAR DATOS =========")
+        
+        if not paises:
+            print("el sistema se encuentra vacio, debe cargar en la opcion (cargar pais del menu)")
+        nombre = validar_str("ingrese el nombre del pais a actualizar sus datos: ")
+        
+        encontrado = False
+        for pais in paises:
+                if nombre == pais["nombre"]:
+                    poblacion_nva = validar_entero(f"ingrese la nueva poblacion para {nombre}: ")
+                    superficie_nva = validar_entero(f"ingrese la nueva superficie de {nombre}: ")
+                    pais["poblacion"] = poblacion_nva
+                    pais["superficie"] = superficie_nva
+                    encontrado = True
+                    print("se actualizo correctamente")
+                    break
+        if not encontrado:
+            print("el pais no se encuentra en el sistema")
+        guardar_paises_csv(paises)
+        
+    except FileNotFoundError:
+        print("Error: el archivo no existe, debe cargar paises en la opcion (agregar pais del menu)")
+    except Exception as e:
+        print(f"ocurrio un error inesperado del tipo {e}")
+
 def menu(paises):
     while True:
         opcion = questionary.select(
             message="Seleccioná una opción:",
             choices=[
                 "Agregar un pais",
-                "Actualizar los datos",
+                "Actualizar los datos (poblacion, superficie)",
                 "Buscar un país por nombre",
                 "Filtrar países",
                 "Ordenar países",
@@ -115,8 +145,8 @@ def menu(paises):
         match opcion:
             case "Agregar un pais":
                 agregar_pais(paises)
-            case "Actualizar los datos":
-                pass
+            case "Actualizar los datos (poblacion, superficie)":
+                actualizar_datos(paises)
             case "Buscar un país por nombre":
                 pass
             case "Filtrar países":
