@@ -1,7 +1,10 @@
 from funciones import*
 
+paises = []
+
 def main():
-    menu()
-    
+    limpiar_consola()
+    menu(paises)
+
 if __name__ == "__main__":
     main()

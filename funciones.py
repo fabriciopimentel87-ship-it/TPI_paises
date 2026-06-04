@@ -1,6 +1,8 @@
 import questionary
-
-def menu():
+import os
+def limpiar_consola():
+    os.system('cls' if os.name =='nt' else 'clear' )
+def menu(paises):
     while True:
         opcion = questionary.select(
             message="Seleccioná una opción:",
@@ -22,7 +24,7 @@ def menu():
                 pass
             case "Buscar un país por nombre":
                 pass
-            case "Filtrar paíse":
+            case "Filtrar países":
                 pass
             case "Ordenar países":
                 pass
