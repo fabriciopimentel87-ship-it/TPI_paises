@@ -127,6 +127,35 @@ def actualizar_datos(paises):
     except Exception as e:
         print(f"ocurrio un error inesperado del tipo {e}")
 
+def buscar_pais_por_nombre(paises):
+    try:
+        print("========= BUSCAR PAIS =========")
+        
+        if not paises:
+            print("el sistema se encuentra vacio, debe cargar en la opcion del menu (cargar pais)")
+        nombre = validar_str("ingrese el nombre del pais a actualizar sus datos: ")
+        
+        encontrado = False
+        for pais in paises:
+                if nombre in pais["nombre"]:
+                    encontrado = True
+                    print(f'''
+                =======================
+                nombre: {pais["nombre"]}
+                poblacion: {pais["poblacion"]}
+                superficie: {pais["superficie"]}
+                continente: {pais["continente"]}
+                =======================
+                ''')
+                    
+        if not encontrado:
+            print("el pais no se encuentra en el sistema")
+        guardar_paises_csv(paises)
+        
+    except FileNotFoundError:
+        print("Error: el archivo no existe, debe cargar paises en la opcion (agregar pais del menu)")
+    except Exception as e:
+        print(f"ocurrio un error inesperado del tipo {e}")
 def menu(paises):
     while True:
         opcion = questionary.select(
