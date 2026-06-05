@@ -9,7 +9,7 @@ def limpiar_consola():
 def validar_str(mensaje):
     while True:
         try:
-            nombre = input(mensaje).strip().capitalize()
+            nombre = input(mensaje).strip().title()
             
             if nombre == "":
                 raise ValueError("no se puede ingresar vacío")
@@ -106,6 +106,7 @@ def actualizar_datos(paises):
         
         if not paises:
             print("el sistema se encuentra vacio, debe cargar en la opcion (cargar pais del menu)")
+            return
         nombre = validar_str("ingrese el nombre del pais a actualizar sus datos: ")
         
         encontrado = False
@@ -133,7 +134,8 @@ def buscar_pais_por_nombre(paises):
         
         if not paises:
             print("el sistema se encuentra vacio, debe cargar en la opcion del menu (cargar pais)")
-        nombre = validar_str("ingrese el nombre del pais a actualizar sus datos: ")
+            return
+        nombre = validar_str("ingrese el nombre del pais a buscar: ")
         
         encontrado = False
         for pais in paises:
@@ -150,10 +152,7 @@ def buscar_pais_por_nombre(paises):
                     
         if not encontrado:
             print("el pais no se encuentra en el sistema")
-        guardar_paises_csv(paises)
         
-    except FileNotFoundError:
-        print("Error: el archivo no existe, debe cargar paises en la opcion (agregar pais del menu)")
     except Exception as e:
         print(f"ocurrio un error inesperado del tipo {e}")
 def menu(paises):
