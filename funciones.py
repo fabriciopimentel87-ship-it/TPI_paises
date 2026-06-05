@@ -177,7 +177,7 @@ def menu(paises):
             case "Actualizar los datos (poblacion, superficie)":
                 actualizar_datos(paises)
             case "Buscar un país por nombre":
-                pass
+                buscar_pais_por_nombre(paises)
             case "Filtrar países":
                 pass
             case "Ordenar países":
