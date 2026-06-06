@@ -155,6 +155,109 @@ def buscar_pais_por_nombre(paises):
         
     except Exception as e:
         print(f"ocurrio un error inesperado del tipo {e}")
+
+# Funcion para filtrar paises
+def filtrar_paises(paises):
+    if not paises:
+        print("el sistema se encuentra vacio, debe cargar en la opcion del menu (cargar pais)")
+        return
+    
+    print('''
+    1. Continente
+    2. Rango de población
+    3. Rango superficie''')
+
+    opcion = validar_entero("Ingrese una opción: ")
+
+    if opcion == 1:
+        continente = validar_str("Continente: ")
+        resultado = [p for p in paises if p["continente"] == continente]
+
+    elif opcion == 2:
+        poblacion_min = validar_entero("Poblacion Minima: ")
+        poblacion_max = validar_entero("Poblacion Maxima: ")
+        resultado = [p for p in paises if poblacion_min <= p["poblacion"] <= poblacion_max]
+
+    elif opcion == 3:
+        superficie_min = validar_entero("Superficie Minima: ")
+        superficie_max = validar_entero("Superficie Maxima: ")
+        resultado = [p for p in paises if superficie_min <= p["superficie"] <= superficie_max]
+    
+    else:
+        print("opción invalida, debe ingresar un nuemero (1/3)")
+        return 
+    
+    if resultado:
+        print("\n--- PAISES ENCONTRADOS ---")
+
+        for pais in resultado:
+            print(f"Nombre: {pais["nombre"]}")
+            print(f"Población: {pais["poblacion"]}")
+            print(f"Superficie: {pais["superficie"]} km²")
+            print(f"Continente: {pais["continente"]}")
+            print("-" * 30)
+    else:
+        print("No se encontraron países.")
+
+# Funciones para odenar paises
+def obtener_nombre(pais):
+    return pais["nombre"]
+
+def obtener_poblacion(pais):
+    return pais["poblacion"]
+
+def obtener_superficie(pais):
+    return pais["superficie"]
+
+def ordenar_paises(paises):
+    if not paises:
+        print("el sistema se encuentra vacio, debe cargar en la opcion del menu (cargar pais)")
+        return
+    
+    print('''
+1. Nombre
+2. Población
+3. Superficie''')
+    
+    opcion = validar_entero("Ordenar por: ")
+    if opcion not in (1, 2, 3):
+        print("La opción es inválida, debe ingresar un numero (1/3)")
+        return
+    orden = validar_str("Ingrese el orden (A- ascendente / D- descendente): ")
+    if orden not in ("A", "D"):
+        print("La opción es invalida, ingrese solamente las letras (A/D)")
+        return
+
+    if opcion == 1:
+        if orden == "D":
+            ordenados = sorted(paises, key=obtener_nombre, reverse=True)
+        else:
+            ordenados = sorted(paises, key=obtener_nombre)
+    
+    elif opcion == 2:
+        if orden == "D":
+            ordenados = sorted(paises, key=obtener_poblacion, reverse=True)
+        else:
+            ordenados = sorted(paises, key=obtener_poblacion)
+    
+    elif opcion == 3:
+        if orden == "D":
+            ordenados = sorted(paises, key=obtener_superficie, reverse=True)
+        else:
+            ordenados = sorted(paises, key=obtener_superficie)
+    
+    else:
+        print("La opción es invalida")
+        return
+    
+    print("--- PAISES ORDENADOS ---")
+    for pais in ordenados:
+        print(f"Nombre: {pais["nombre"]}")
+        print(f"Población: {pais["poblacion"]}")
+        print(f"Superficie: {pais["superficie"]} km²")
+        print(f"Continente: {pais["continente"]}")
+        print("-" * 30)
+
 def menu(paises):
     while True:
         opcion = questionary.select(
@@ -178,9 +281,9 @@ def menu(paises):
             case "Buscar un país por nombre":
                 buscar_pais_por_nombre(paises)
             case "Filtrar países":
-                pass
+                filtrar_paises(paises)
             case "Ordenar países":
-                pass
+                ordenar_paises(paises)
             case "Mostrar estadísticas":
                 pass
             case "Salir del programa":
