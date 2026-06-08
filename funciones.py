@@ -286,7 +286,7 @@ def estadisticas(paises):
     prom_poblacion = total_poblacion / len(paises)
     prom_superficie = total_superficie / len(paises)
 
-    # cantidad por continent
+    # cantidad por continente
     cantidad_continente = {}
     for pais in paises:
         continente = pais["continente"]
@@ -330,11 +330,11 @@ def menu(paises):
             case "Buscar un país por nombre":
                 buscar_pais_por_nombre(paises)
             case "Filtrar países":
-                pass
+                filtrar_paises(paises)
             case "Ordenar países":
-                pass
+                ordenar_paises(paises)
             case "Mostrar estadísticas":
-                pass
+                estadisticas(paises)
             case "Salir del programa":
                 print("Saliendo del programa...")
                 break
