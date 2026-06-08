@@ -258,6 +258,55 @@ def ordenar_paises(paises):
         print(f"Continente: {pais["continente"]}")
         print("-" * 30)
 
+
+# Función mostrar estadisticas
+def estadisticas(paises):
+    if not paises:
+        print("el sistema se encuentra vacio, debe cargar en la opcion del menu (cargar pais)")
+        return
+    
+    # pais con menor y mayor población 
+    mayor_poblacion = paises[0]
+    menor_poblacion = paises[0]
+
+    for pais in paises:
+        if pais["poblacion"] > mayor_poblacion["poblacion"]:
+            mayor_poblacion = pais
+        
+        if pais["poblacion"] < menor_poblacion["poblacion"]:
+            menor_poblacion = pais
+
+    # promedio de población y superficie
+    total_poblacion = 0
+    total_superficie = 0
+    for pais in paises:
+        total_poblacion += pais["poblacion"]
+        total_superficie += pais["superficie"]
+    
+    prom_poblacion = total_poblacion / len(paises)
+    prom_superficie = total_superficie / len(paises)
+
+    # cantidad por continent
+    cantidad_continente = {}
+    for pais in paises:
+        continente = pais["continente"]
+        if continente in cantidad_continente:
+            cantidad_continente[continente] += 1
+        
+        else:
+            cantidad_continente[continente] = 1
+    
+    # resultados finales
+    print("\n ESTADISTICAS")
+    print("Pais con mayor poblacion:", mayor_poblacion["nombre"])
+    print("Pais con menor poblacion:", menor_poblacion["nombre"])
+    print("Promedio poblacion:", round(prom_poblacion, 2))
+    print("Promedio superficie:", round(prom_superficie, 2))
+    
+    print("\n CANTIDAD DE PAISES POR CONTINENTE")
+    for continente, cantidad in cantidad_continente.items():
+        print(f"{continente}: {cantidad}")
+
 def menu(paises):
     while True:
         opcion = questionary.select(
@@ -281,9 +330,9 @@ def menu(paises):
             case "Buscar un país por nombre":
                 buscar_pais_por_nombre(paises)
             case "Filtrar países":
-                filtrar_paises(paises)
+                pass
             case "Ordenar países":
-                ordenar_paises(paises)
+                pass
             case "Mostrar estadísticas":
                 pass
             case "Salir del programa":
