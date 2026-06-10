@@ -1,7 +1,13 @@
 import questionary
 import os
 import csv
+import unicodedata
 
+def quitar_acentos(texto):
+    texto = texto.lower()
+    texto = unicodedata.normalize("NFD", texto)
+    texto = "".join(c for c in texto if unicodedata.category(c) != 'Mn')
+    return texto
 def limpiar_consola():
     os.system('cls' if os.name =='nt' else 'clear' )
 
@@ -73,7 +79,7 @@ def cargar_paises_csv():
 ## opcion 1 del menu:
 def agregar_pais(paises):
     try:
-        nombre = validar_str("ingrese el nombre del pais que desea agrgar: ")
+        nombre = validar_str("ingrese el nombre del pais que desea agregar: ")
         
         for pais in paises:
             if pais["nombre"] == nombre:
@@ -111,7 +117,7 @@ def actualizar_datos(paises):
         
         encontrado = False
         for pais in paises:
-                if nombre == pais['nombre']:
+                if quitar_acentos(nombre) == quitar_acentos(pais['nombre']):
                     poblacion_nva = validar_entero(f"ingrese la nueva poblacion para {nombre}: ")
                     superficie_nva = validar_entero(f"ingrese la nueva superficie de {nombre}: ")
                     pais['poblacion'] = poblacion_nva
@@ -139,16 +145,16 @@ def buscar_pais_por_nombre(paises):
         
         encontrado = False
         for pais in paises:
-                if nombre in pais['nombre']:
+                if quitar_acentos(nombre) in quitar_acentos(pais['nombre']):
                     encontrado = True
                     print(f'''
-                =======================
-                nombre: {pais['nombre']}
-                poblacion: {pais['poblacion']}
-                superficie: {pais['superficie']}
-                continente: {pais['continente']}
-                =======================
-                ''')
+=======================
+nombre: {pais['nombre']}
+poblacion: {pais['poblacion']}
+superficie: {pais['superficie']}
+continente: {pais['continente']}
+=======================
+''')
                     
         if not encontrado:
             print("el pais no se encuentra en el sistema")
@@ -171,7 +177,7 @@ def filtrar_paises(paises):
 
     if opcion == 1:
         continente = validar_str("Continente: ")
-        resultado = [p for p in paises if p['continente'] == continente]
+        resultado = [p for p in paises if quitar_acentos(p['continente']) == quitar_acentos(continente)]
 
     elif opcion == 2:
         poblacion_min = validar_entero("Poblacion Minima: ")
