@@ -78,3 +78,6 @@ Nombre a buscar: "Ar"
 * funciones.py
 * paises.csv
 * README.md
+
+## ENLACE DE VIDEO EXPLICATIVO
+https://youtu.be/L1vOvRK-cI4
